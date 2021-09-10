@@ -1,0 +1,21 @@
+.profile__profession{
+    margin: 0;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21.78px;
+    /*после текста ставим точки*/
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    align-content: flex-start;
+    max-width: 294px;
+}
+@media screen and (max-width: 1023px){
+    .profile__profession{
+        max-width: 189px;
+        text-align: center;
+        font-size: 14px;
+        line-height: 17px;
+        margin: 0 auto;
+    }
+}

@@ -1,0 +1,9 @@
+.no-scroll{
+    overflow-y:hidden;
+}
+
+@media (min-width: 1024px) {
+    .no-scroll {
+        padding-right: 15px;
+    }
+}

@@ -1,0 +1,12 @@
+.form__field{
+    margin: 34px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+.form__field:first-child{
+    margin-top: 48px;
+}

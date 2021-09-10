@@ -1,0 +1,8 @@
+.profile__info{
+    max-width: 336px;
+    display: flex;
+    justify-content: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

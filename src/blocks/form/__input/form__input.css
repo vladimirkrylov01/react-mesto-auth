@@ -1,0 +1,29 @@
+.form__input{
+    margin: 0 auto;
+    font-size: 14px;
+    padding: 0 0 13px 0;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    line-height: 16.94px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+@media screen and (max-width: 450px) {
+    .form__input {
+        padding-bottom: 13px;
+    }
+}
+
+/*.popup__input:invalid{*/
+/*    border-bottom: 1px solid red;*/
+/*}*/
+
+.form__input:valid{
+    border-bottom: 1px solid green;
+}
+
+/*.form__input:invalid{*/
+/*    border-bottom: 1px solid red;*/
+/*}*/

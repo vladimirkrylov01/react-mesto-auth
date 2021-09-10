@@ -1,0 +1,11 @@
+.profile__edit{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: center;
+    /*после текста ставим точки*/
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

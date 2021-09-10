@@ -1,0 +1,8 @@
+.card__image{
+    /*position: absolute;*/
+    background-position: 50%;
+    background-size: cover;
+    cursor: pointer;
+    padding-bottom: 100%;
+    width: 100%;
+}
