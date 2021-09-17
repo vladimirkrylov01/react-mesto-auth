@@ -1,19 +1,19 @@
 class Api {
-  constructor(address,token,cohorId) {
+  constructor(address, token, cohorId) {
     this.address = address
     this.token = token
     this.cohortId = cohorId
   }
 
-  _handleResponse = (response) => {
-    if (response.ok) {
-      return response.json()
+  _handleResponse = (res) => {
+    if (res.ok) {
+      return res.json()
     } else {
-      return Promise.reject(response.status)
+      return Promise.reject(new Error(`Ошибка: ${res.status}`))
     }
   }
 
-  _request (endpoint, method, body) {
+  _request(endpoint, method, body) {
     const fetchInit = {
       method: method,
       headers: {
@@ -21,41 +21,41 @@ class Api {
         'Content-Type': 'application/json'
       }
     }
-    return fetch (
+    return fetch(
       `${this.address}/${this.cohortId}/${endpoint}`,
       body
-        ? { ...fetchInit, body: JSON.stringify(body) }
+        ? {...fetchInit, body: JSON.stringify(body)}
         : fetchInit)
-      .then (
+      .then(
         this._handleResponse
       )
   }
 
-  getUserInfo () {
+  getUserInfo() {
     return this._request('users/me', 'GET')
   }
 
-  getCardList () {
+  getCardList() {
     return this._request('cards', 'GET')
   }
 
-  updateUserInfo (userInfo) {
+  updateUserInfo(userInfo) {
     return this._request('users/me', 'PATCH', userInfo)
   }
 
-  updateAvatar (avatar) {
+  updateAvatar(avatar) {
     return this._request('users/me/avatar', 'PATCH', avatar)
   }
 
-  addNewCard (cardData) {
+  addNewCard(cardData) {
     return this._request('cards', 'POST', cardData)
   }
 
-  changeLikeCardStatus (cardID, isLiked) {
+  changeLikeCardStatus(cardID, isLiked) {
     return this._request(`cards/likes/${cardID}`, isLiked ? 'DELETE' : 'PUT')
   }
 
-  deleteCard (cardID) {
+  deleteCard(cardID) {
     return this._request(`cards/${cardID}`, 'DELETE')
   }
 }

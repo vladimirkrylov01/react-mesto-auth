@@ -1,0 +1,19 @@
+.sign-container {
+  width: 100%;
+  max-width: 358px;
+  margin: 60px auto 80px auto;
+}
+
+@media screen and (max-width: 686px) {
+  .sign-container {
+    /*padding: 0 30px;*/
+    margin: 40px auto 60px auto;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sign-container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}

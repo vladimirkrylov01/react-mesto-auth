@@ -1,0 +1,16 @@
+.sign-container__input {
+  background-color: #000000;
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ccc;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 11px;
+  outline: none;
+}
+
+.sign-container__input::placeholder {
+  color: rgba(204, 204, 204, 0.5);
+}

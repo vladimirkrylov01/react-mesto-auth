@@ -7,6 +7,7 @@ const AddPlacePopup = (props) => {
 
   function handleSubmit(e) {
     e.preventDefault();
+
     props.onAddPlace({
       name: place,
       link: link,

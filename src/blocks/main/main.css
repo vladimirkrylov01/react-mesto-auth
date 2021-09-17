@@ -1,0 +1,9 @@
+.main {
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 882px) {
+  .main {
+    padding: 0 19px;
+  }
+}

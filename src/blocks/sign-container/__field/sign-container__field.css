@@ -1,0 +1,12 @@
+.sign-container__field {
+  display: inline-block;
+  width: 100%;
+}
+
+.sign-container__field:first-of-type {
+  margin: 50px 0 30px;
+}
+
+.sign-container__field:last-of-type {
+  margin-bottom: 216px;
+}

@@ -1,0 +1,5 @@
+.header__nav_active {
+  display: block;
+  width: 100%;  
+  order: 1
+}

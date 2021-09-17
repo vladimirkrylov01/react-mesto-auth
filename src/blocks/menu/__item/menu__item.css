@@ -1,0 +1,8 @@
+.menu__item {
+  color: #fff;
+  margin-right: 24px;
+}
+
+.menu__item:last-of-type {
+  margin-right: 0;
+}

@@ -1,12 +1,16 @@
 .page {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1280px;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
-    position: relative;
+  position: relative;
+  box-sizing: border-box;
+  max-width: 882px;
+  min-height: 100vh;
+  padding: 45px 0 60px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+@media screen and (max-width: 686px) {
+  .page {
+    padding-top: 36px;
+    padding-bottom: 28px;
+  }
 }

@@ -1,19 +1,15 @@
-import React, {useContext} from 'react';
+import React from "react";
 import Profile from "./Profile";
 import Card from "./Card";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const currentUser = useContext(CurrentUserContext)
+  // noinspection JSCheckFunctionSignatures
   return (
-     <main className='content'>
-        <Profile {...props}
-                 title={currentUser.name}
-                 profession={currentUser.about}
-                 avatar={currentUser.avatar}
-        />
+    <>
+      <main className="main page__main">
+        <Profile {...props} />
         <section className="cards-grid">
-          {props.cards.map(card => (
+          {props.cards.map((card) => (
             <Card
               onCardDelete={props.onCardDelete}
               onCardLike={props.onCardLike}
@@ -24,7 +20,8 @@ function Main(props) {
           ))}
         </section>
       </main>
-  )
+    </>
+  );
 }
 
 export default Main;

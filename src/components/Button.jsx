@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
 
-const Button = ({...props}) => {
+const Button = ({ ...props }) => {
   return (
     <button
-             className={`form__submit popup__button-submit popup__button-${props.name}`}
-             type="submit">{props.buttonText}
+      className={`form__submit popup__button-submit popup__button-${props.name}`}
+      type="submit"
+    >
+      {props.buttonText}
     </button>
   );
 };

@@ -1,0 +1,5 @@
+@media screen and (max-width: 686px) {
+  .header__logo_active {
+    order: 2;
+  }
+}

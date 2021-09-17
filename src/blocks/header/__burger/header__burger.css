@@ -1,0 +1,12 @@
+.header__burger {
+  display: none;
+}
+
+@media screen and (max-width: 882px) {
+  .header__burger {
+    order: 3;
+    margin-right: 30px;
+    background: none;
+    border: none;
+  }
+}

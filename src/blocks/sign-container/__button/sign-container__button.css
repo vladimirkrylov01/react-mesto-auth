@@ -1,0 +1,7 @@
+.sign-container__button {
+  /*width: 358px;*/
+  height: 50px;
+  border-radius: 2px;
+  cursor: pointer;
+  width: 100%;
+}
