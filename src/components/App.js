@@ -15,6 +15,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 import * as MestoAuth from "../utils/MestoAuth.js";
 import { api } from "../utils/Api.js";
+// import {auth} from "../utils/MestoAuth.js";
 
 import InfoToolkit from "./UI/InfoToolkit.jsx";
 import Register from "./UI/Register.jsx";
@@ -36,7 +37,21 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = React.useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  useEffect(() => {
+    function closeByEscape(e) {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+
+    document.addEventListener("keydown", closeByEscape);
+
+    return () => {
+      document.removeEventListener("keydown", closeByEscape);
+    };
+  }, []);
 
   // ------------------------------ SIGN CHECK ------------------------------
   const signCheck = useCallback(() => {
@@ -59,55 +74,6 @@ export default function App() {
   }, [signCheck]);
   // ------------------------------ SIGN CHECK------------------------------
 
-  // const signUserCheck = useCallback(() => {
-  //   const jwt = localStorage.getItem("jwt");
-  //   if (jwt) {
-  //     MestoAuth.checkToken(jwt)
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true);
-  //           setUserEmail(res.data.email);
-  //           history.push("/main");
-  //         }
-  //       })
-  //       .catch(() => history.push("/sign-in"));
-  //   }
-  // }, [history]);
-
-  // useEffect(() => {
-  //   const jwt = localStorage.getItem("jwt");
-  //   if (jwt) {
-  //     MestoAuth.checkToken(jwt)
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true);
-  //           setUserEmail(res.data.email);
-  //           history.push("/main");
-  //         }
-  //       })
-  //       .catch(() => history.push("/sign-in"));
-  //   }
-  // }, [history]);
-
-  // function signUserCheck() {
-  //   const jwt = localStorage.getItem("jwt");
-  //   if (jwt) {
-  //     MestoAuth.checkToken(jwt)
-  //       .then((res) => {
-  //         if (res) {
-  //           setLoggedIn(true);
-  //           setUserEmail(res.data.email);
-  //           history.push("/main");
-  //         }
-  //       })
-  //       .catch(() => history.push("/sign-in"));
-  //   }
-  // }
-  //
-  // useEffect(() => {
-  //   signUserCheck();
-  // }, [signUserCheck]);
-
   // ------------------------------ DEPS [loggedIn] ------------------------------
 
   useEffect(() => {
@@ -126,7 +92,7 @@ export default function App() {
 
   // ------------------------------ LOGIN FORM ------------------------------
   // через 1.5с после УСПЕШНОГО Логина кидаем пользователя на MAIN
-  function handleLogin({ email, password }) {
+  function handleLogin(email, password) {
     return MestoAuth.login(email, password)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
@@ -142,27 +108,26 @@ export default function App() {
   // ------------------------------ LOGIN FORM ------------------------------
 
   // ------------------------------ REGISTER FORM ------------------------------
-  // через 1.5с после УСПЕШНОЙ регистрации кидаем пользователя на ЛОГИН
-  function handleRegister({ email, password }) {
-    return MestoAuth.register(email, password)
+  // при успешной регистрации переходим на LOGIN,
+  // а так же сообщаем о статусе регистрации
+  function handleRegister(email, password) {
+    MestoAuth.register(email, password)
       .then((res) => {
-        setUserEmail(res.email);
-        setSuccess(true);
+        setIsRegistered(true);
         setInfoTooltipPopupOpen(true);
         history.push("/signin");
         return res;
       })
+      // при неудачной регистрации - переводим обратно на REGISTER
       .catch((err) => {
+        setIsRegistered(false);
         setInfoTooltipPopupOpen(true);
-        // setSuccess(false);
+        history.push("/signup");
         console.log(err);
         setTimeout(() => {
           setInfoTooltipPopupOpen(false);
-        }, 1500);
+        }, 1700);
       });
-    // .finally(() => {
-    //   history.push("/main");
-    // });
   }
 
   // ------------------------------ REGISTER FORM ------------------------------
@@ -312,34 +277,34 @@ export default function App() {
             </Route>
           </Switch>
           <Footer />
-
-          <EditProfilePopup
-            active={!isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-          />
-          <AddPlacePopup
-            active={!isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onAddPlace={handleAddCard}
-          />
-          <EditAvatarPopup
-            active={!isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-          <ImagePopup
-            card={selectedCard}
-            onClose={closeAllPopups}
-            active={!isPreviewPopupOpen}
-          />
-          <InfoToolkit
-            onclose={closeAllPopups}
-            active={!isInfoTooltipPopupOpen}
-            name="toolkit"
-            success={success}
-          />
         </div>
+
+        <EditProfilePopup
+          active={!isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        <AddPlacePopup
+          active={!isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddCard}
+        />
+        <EditAvatarPopup
+          active={!isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+          active={!isPreviewPopupOpen}
+        />
+        <InfoToolkit
+          onclose={closeAllPopups}
+          active={!isInfoTooltipPopupOpen}
+          name="toolkit"
+          isRegistered={isRegistered}
+        />
       </CurrentUserContext.Provider>
     </div>
   );

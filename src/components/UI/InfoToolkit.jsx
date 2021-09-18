@@ -22,12 +22,12 @@ const InfoToolkit = (props) => {
 
         <img
           className="popup__image-auth"
-          src={props.success ? successIcon : errorIcon}
-          alt="Внимание!"
+          src={props.isRegistered ? successIcon : errorIcon}
+          alt={props.isRegistered ? "Успех" : "Что-то не так"}
         />
 
         <p className="popup__warning">
-          {props.success
+          {props.isRegistered
             ? "Вы успешно зарегистрировались!"
             : "Что-то пошло не так! Попробуйте ещё раз."}
         </p>
