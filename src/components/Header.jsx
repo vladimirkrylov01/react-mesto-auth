@@ -34,17 +34,17 @@ const Header = (props) => {
         <ul className={menu}>
           <Switch>
             {/* ---------- Кнопка Войти ---------- */}
-            <Route path="/signup">
+            <Route path="/sign-up">
               <li className="menu__item">
-                <Link className="menu__link" to="signin">
+                <Link className="menu__link" to="sign-in">
                   {props.text}
                 </Link>
               </li>
             </Route>
             {/* ---------- Кнопка Регистрации ---------- */}
-            <Route path="/signin">
+            <Route path="/sign-in">
               <li className="menu__item">
-                <Link className="menu__link" to="signup">
+                <Link className="menu__link" to="sign-up">
                   {props.text}
                 </Link>
               </li>

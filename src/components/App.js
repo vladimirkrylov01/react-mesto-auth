@@ -77,7 +77,6 @@ export default function App() {
   // ------------------------------ DEPS [loggedIn] ------------------------------
 
   useEffect(() => {
-    setLoading(true);
     Promise.all([api.getUserInfo(), api.getCardList()])
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
@@ -87,49 +86,48 @@ export default function App() {
       .finally(() => {
         setLoading(false);
       });
-  }, [loggedIn]);
+  }, []);
   // ------------------------------ DEPS [loggedIn] ------------------------------
 
   // ------------------------------ LOGIN FORM ------------------------------
   // через 1.5с после УСПЕШНОГО Логина кидаем пользователя на MAIN
-  function handleLogin(email, password) {
-    return MestoAuth.login(email, password)
+  function handleLogin(data) {
+    return MestoAuth.login(data)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
-        setUserEmail(email);
+        setUserEmail(data.email);
         setLoggedIn(true);
         history.push("/main");
       })
       .catch((err) => {
+        setIsRegistered(false);
+        setInfoTooltipPopupOpen(true);
         console.log(err);
+        setTimeout(() => {
+          setInfoTooltipPopupOpen(false);
+        }, 2000);
       });
   }
 
   // ------------------------------ LOGIN FORM ------------------------------
 
   // ------------------------------ REGISTER FORM ------------------------------
-  // при успешной регистрации переходим на LOGIN,
-  // а так же сообщаем о статусе регистрации
-  function handleRegister(email, password) {
-    MestoAuth.register(email, password)
-      .then((res) => {
+  function handleRegister(data) {
+    MestoAuth.register(data)
+      .then(() => {
         setIsRegistered(true);
         setInfoTooltipPopupOpen(true);
-        history.push("/signin");
-        return res;
+        history.push("./sign-in");
+        setTimeout(() => {
+          setInfoTooltipPopupOpen(false);
+        }, 2000);
       })
-      // при неудачной регистрации - переводим обратно на REGISTER
       .catch((err) => {
         setIsRegistered(false);
         setInfoTooltipPopupOpen(true);
-        history.push("/signup");
         console.log(err);
-        setTimeout(() => {
-          setInfoTooltipPopupOpen(false);
-        }, 1700);
       });
   }
-
   // ------------------------------ REGISTER FORM ------------------------------
 
   // Выход из аккаунта
@@ -137,7 +135,7 @@ export default function App() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
     setUserEmail("");
-    history.push("/signin");
+    history.push("/sign-in");
   }
 
   // ------------------------------ POPUP HANDLERs ------------------------------
@@ -247,15 +245,15 @@ export default function App() {
           </Route>
           <Switch>
             {/* ----------- Логин ----------- */}
-            <Route path="/signin">
-              <Header url="/signup" text="Регистрация" />
+            <Route path="/sign-in">
+              <Header url="/sign-up" text="Регистрация" />
               <Login onLogin={handleLogin} subText="Регистрация" />
             </Route>
 
             {/* ----------- Регистрация ----------- */}
-            <Route path="/signup">
-              <Header url="/signin" text="Войти" />
-              <Register onClick={handleRegister} subText="Войти" />
+            <Route path="/sign-up">
+              <Header url="/sign-in" text="Войти" />
+              <Register onRegister={handleRegister} subText="Войти" />
             </Route>
 
             {/* ----------- Для зарегистрированных пользователей ----------- */}
@@ -273,7 +271,7 @@ export default function App() {
             />
 
             <Route>
-              {loggedIn ? <Redirect to="/main" /> : <Redirect to="/signin" />}
+              {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           <Footer />

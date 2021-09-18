@@ -1,27 +1,12 @@
-// noinspection HtmlUnknownTarget
-
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import * as MestoAuth from "../../utils/MestoAuth.js";
+import { Link } from "react-router-dom";
 
 const Register = (props) => {
   const [data, setData] = useState({ email: "", password: "" });
-  const history = useHistory();
 
   function handleSubmit(e) {
     e.preventDefault();
-    let { email, password } = data;
-    MestoAuth.register(email, password)
-      .then((res) => {
-        if (res.statusCode !== 400) {
-          props.onClick(true);
-          history.push("/sign-in");
-        }
-      })
-      .catch((err) => {
-        props.onClick(false);
-        console.log(err);
-      });
+    props.onRegister(data);
   }
 
   function handleChange(e) {
@@ -65,7 +50,7 @@ const Register = (props) => {
         </button>
         <p className="sign-container__paragraph">
           Уже зарегистрированы ?{" "}
-          <Link className="sign-container__paragraph" to="signin">
+          <Link className="sign-container__paragraph" to="sign-in">
             {props.subText}
           </Link>
         </p>

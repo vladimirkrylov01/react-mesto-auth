@@ -50,7 +50,7 @@ const Login = (props) => {
         </button>
         <p className="sign-container__paragraph">
           Ещё не зарегистрированы ?{" "}
-          <Link className="sign-container__paragraph" to="signup">
+          <Link className="sign-container__paragraph" to="sign-up">
             {props.subText}
           </Link>
         </p>
