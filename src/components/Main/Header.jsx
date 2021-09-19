@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, Route, Switch } from "react-router-dom";
-import burgerOpenImg from "../images/header/burger/burger.svg";
-import burgerCloseImg from "../images/header/burger/close_burger.svg";
-import headerLogo from "../images/header/header__logo.svg";
+import burgerOpenImg from "../../images/header/burger/burger.svg";
+import burgerCloseImg from "../../images/header/burger/close_burger.svg";
+import headerLogo from "../../images/header/header__logo.svg";
 
 const Header = (props) => {
   const [menuOpened, setMenuOpened] = useState(false);

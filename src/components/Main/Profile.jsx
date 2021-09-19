@@ -1,6 +1,6 @@
-import profilePen from "../images/profile/edit.svg";
+import profilePen from "../../images/profile/edit.svg";
 import React, { useContext } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const Profile = (props) => {
   // noinspection JSCheckFunctionSignatures

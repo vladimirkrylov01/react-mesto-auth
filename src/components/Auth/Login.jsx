@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Register = (props) => {
+const Login = (props) => {
   const [data, setData] = useState({ email: "", password: "" });
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.onRegister(data);
+    props.onLogin(data);
   }
 
   function handleChange(e) {
@@ -18,18 +18,22 @@ const Register = (props) => {
   }
 
   return (
-    <>
-      <div className="sign-container">
-        <h2 className="sign-container__title">Регистрация</h2>
+    <div className="sign-container">
+      <h2 className="sign-container__title">Вход</h2>
+      <form
+        className={`form form__${props.name}`}
+        name={props.name}
+        onSubmit={handleSubmit}
+      >
         <label className="sign-container__field">
           <input
             id="email-input"
             className="sign-container__input"
-            type="url"
+            type="email"
             name="email"
+            value={data.email}
             onChange={handleChange}
             placeholder="Email"
-            required
           />
           <span className="email-input-error" />
         </label>
@@ -39,24 +43,24 @@ const Register = (props) => {
             className="sign-container__input"
             type="password"
             name="password"
+            value={data.password}
             onChange={handleChange}
             placeholder="Пароль"
-            required
           />
           <span className="password-input-error" />
         </label>
-        <button className="sign-container__button" onClick={handleSubmit}>
-          Зарегистрироваться
+        <button className="sign-container__button" type="submit">
+          Войти
         </button>
-        <p className="sign-container__paragraph">
-          Уже зарегистрированы ?{" "}
-          <Link className="sign-container__paragraph" to="sign-in">
-            {props.subText}
-          </Link>
-        </p>
-      </div>
-    </>
+      </form>
+      <p className="sign-container__paragraph">
+        Ещё не зарегистрированы ?{" "}
+        <Link className="sign-container__paragraph" to="sign-up">
+          {props.subText}
+        </Link>
+      </p>
+    </div>
   );
 };
 
-export default Register;
+export default Login;

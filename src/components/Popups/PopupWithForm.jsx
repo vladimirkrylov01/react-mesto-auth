@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "./Button";
+import Button from "../Main/Button";
 
 const PopupWithForm = (props) => {
   return (
@@ -25,7 +25,7 @@ const PopupWithForm = (props) => {
           onSubmit={props.onSubmit}
         >
           <fieldset className="form__set">{props.children}</fieldset>
-          <Button name={props.name} buttonText={props.buttonText}/>
+          <Button name={props.name} buttonText={props.buttonText} />
         </form>
       </div>
     </section>

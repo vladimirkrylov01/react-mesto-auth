@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const EditProfilePopup = (props) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  // noinspection JSCheckFunctionSignatures
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, props.active]);
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -50,7 +51,7 @@ const EditProfilePopup = (props) => {
           type="text"
           name="name"
           placeholder="Имя"
-          value={name}
+          value={name || ""}
           onChange={handleChangeName}
         />
         <span className="name-input-error form__input-error form__input-error_active" />
@@ -64,7 +65,7 @@ const EditProfilePopup = (props) => {
           minLength="2"
           maxLength="200"
           type="text"
-          value={description}
+          value={description || ""}
           onChange={handleChangeDescription}
           name="profession"
           placeholder="Профессия"

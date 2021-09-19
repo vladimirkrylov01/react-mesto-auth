@@ -2,24 +2,23 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import "../pages/index.css";
 
-import Header from "./Header.jsx";
-import Footer from "./Footer.jsx";
+import Header from "./Main/Header.jsx";
+import Footer from "./Main/Footer.jsx";
 import Main from "./Main.jsx";
-import ImagePopup from "./ImagePopup.jsx";
-import EditProfilePopup from "./EditProfilePopup.jsx";
-import EditAvatarPopup from "./EditAvatarPopup.jsx";
+import ImagePopup from "./Popups/ImagePopup.jsx";
+import EditProfilePopup from "./Popups/EditProfilePopup.jsx";
+import EditAvatarPopup from "./Popups/EditAvatarPopup.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
-import AddPlacePopup from "./AddPlacePopup.jsx";
+import AddPlacePopup from "./Popups/AddPlacePopup.jsx";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 import * as MestoAuth from "../utils/MestoAuth.js";
 import { api } from "../utils/Api.js";
-// import {auth} from "../utils/MestoAuth.js";
 
-import InfoToolkit from "./UI/InfoToolkit.jsx";
-import Register from "./UI/Register.jsx";
-import Login from "./UI/Login.jsx";
+import InfoToolTip from "./UI/InfoToolTip.jsx";
+import Register from "./Auth/Register.jsx";
+import Login from "./Auth/Login.jsx";
 import Loader from "./UI/Loader.jsx";
 
 export default function App() {
@@ -29,7 +28,7 @@ export default function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPreviewPopupOpen, setIsPreviewPopupOpen] = useState(false);
-  const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
+  const [isInfoToolTipPopupOpen, setInfoToolTipPopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
@@ -38,20 +37,6 @@ export default function App() {
   const [userEmail, setUserEmail] = React.useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
-
-  useEffect(() => {
-    function closeByEscape(e) {
-      if (e.key === "Escape") {
-        closeAllPopups();
-      }
-    }
-
-    document.addEventListener("keydown", closeByEscape);
-
-    return () => {
-      document.removeEventListener("keydown", closeByEscape);
-    };
-  }, []);
 
   // ------------------------------ SIGN CHECK ------------------------------
   const signCheck = useCallback(() => {
@@ -74,7 +59,19 @@ export default function App() {
   }, [signCheck]);
   // ------------------------------ SIGN CHECK------------------------------
 
-  // ------------------------------ DEPS [loggedIn] ------------------------------
+  // ------------------------------ DEPS [] ------------------------------
+  useEffect(() => {
+    function closeByEscape(e) {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+
+    document.addEventListener("keydown", closeByEscape);
+    return () => {
+      document.removeEventListener("keydown", closeByEscape);
+    };
+  }, []);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCardList()])
@@ -87,10 +84,10 @@ export default function App() {
         setLoading(false);
       });
   }, []);
-  // ------------------------------ DEPS [loggedIn] ------------------------------
+  // ------------------------------ DEPS [] ------------------------------
 
   // ------------------------------ LOGIN FORM ------------------------------
-  // через 1.5с после УСПЕШНОГО Логина кидаем пользователя на MAIN
+  // через 2с после OK Login направляем пользователя на Main
   function handleLogin(data) {
     return MestoAuth.login(data)
       .then((res) => {
@@ -101,10 +98,10 @@ export default function App() {
       })
       .catch((err) => {
         setIsRegistered(false);
-        setInfoTooltipPopupOpen(true);
+        setInfoToolTipPopupOpen(true);
         console.log(err);
         setTimeout(() => {
-          setInfoTooltipPopupOpen(false);
+          setInfoToolTipPopupOpen(false);
         }, 2000);
       });
   }
@@ -112,19 +109,20 @@ export default function App() {
   // ------------------------------ LOGIN FORM ------------------------------
 
   // ------------------------------ REGISTER FORM ------------------------------
+  // через 2с после OK Register направляем пользователя на Login
   function handleRegister(data) {
     MestoAuth.register(data)
       .then(() => {
         setIsRegistered(true);
-        setInfoTooltipPopupOpen(true);
+        setInfoToolTipPopupOpen(true);
         history.push("./sign-in");
         setTimeout(() => {
-          setInfoTooltipPopupOpen(false);
+          setInfoToolTipPopupOpen(false);
         }, 2000);
       })
       .catch((err) => {
         setIsRegistered(false);
-        setInfoTooltipPopupOpen(true);
+        setInfoToolTipPopupOpen(true);
         console.log(err);
       });
   }
@@ -145,7 +143,7 @@ export default function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsPreviewPopupOpen(false);
-    setInfoTooltipPopupOpen(false);
+    setInfoToolTipPopupOpen(false);
     setSelectedCard({});
   }
 
@@ -247,13 +245,17 @@ export default function App() {
             {/* ----------- Логин ----------- */}
             <Route path="/sign-in">
               <Header url="/sign-up" text="Регистрация" />
-              <Login onLogin={handleLogin} subText="Регистрация" />
+              <Login onLogin={handleLogin} subText="Регистрация" name="login" />
             </Route>
 
             {/* ----------- Регистрация ----------- */}
             <Route path="/sign-up">
               <Header url="/sign-in" text="Войти" />
-              <Register onRegister={handleRegister} subText="Войти" />
+              <Register
+                onRegister={handleRegister}
+                subText="Войти"
+                name="register"
+              />
             </Route>
 
             {/* ----------- Для зарегистрированных пользователей ----------- */}
@@ -297,9 +299,9 @@ export default function App() {
           onClose={closeAllPopups}
           active={!isPreviewPopupOpen}
         />
-        <InfoToolkit
-          onclose={closeAllPopups}
-          active={!isInfoTooltipPopupOpen}
+        <InfoToolTip
+          onClose={closeAllPopups}
+          active={!isInfoToolTipPopupOpen}
           name="toolkit"
           isRegistered={isRegistered}
         />

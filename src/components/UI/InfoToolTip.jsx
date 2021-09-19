@@ -2,7 +2,7 @@ import React from "react";
 import successIcon from "../../images/toolkit/success.svg";
 import errorIcon from "../../images/toolkit/wrong.svg";
 
-const InfoToolkit = (props) => {
+const InfoToolTip = (props) => {
   return (
     <section
       className={
@@ -36,4 +36,4 @@ const InfoToolkit = (props) => {
   );
 };
 
-export default InfoToolkit;
+export default InfoToolTip;

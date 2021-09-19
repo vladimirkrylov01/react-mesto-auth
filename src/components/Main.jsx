@@ -1,6 +1,6 @@
 import React from "react";
-import Profile from "./Profile";
-import Card from "./Card";
+import Profile from "./Main/Profile";
+import Card from "./Main/Card";
 
 function Main(props) {
   // noinspection JSCheckFunctionSignatures
