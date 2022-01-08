@@ -1,0 +1,12 @@
+{
+  "name": "react-mesto-backend",
+  "version": "1.0.0",
+  "dependencies": {
+    "eslint": "^8.6.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4"
+  },
+  "scripts": {
+    "lint": "npx eslint"
+  }
+}
